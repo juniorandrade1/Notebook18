@@ -90,6 +90,14 @@ Point segmentIntersection(const Segment &sa, const Segment &sb) {
   return Point(Point(a.x, b.x) % c, Point(a.y, b.y) % c) / (a % b);
 }
 
+void getLineEquation(Line l) {
+  Point p = l.a;
+  Point q = l.ab;
+  double a = p.y - q.y;
+  double b = q.x - p.y;
+  double c = (p % q);
+}
+
 int main() {
   return 0;
 }
