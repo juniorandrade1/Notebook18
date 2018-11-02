@@ -2,7 +2,8 @@ struct SuffixArray {
   vector<int> lcp;
   vector< vector<pair<int, int> > > rmq;
   int n, h;
-  vector<int> sa, invsa;
+  vector< int > sa; //position in sa -> origin
+  vector< int > invsa; //position in origin -> sa
   bool cmp(int a, int b) { return invsa[a + h] < invsa[b + h]; }
   void ternary_sort(int a, int b) {
     if (a == b) return;
@@ -48,6 +49,12 @@ struct SuffixArray {
   pair<int, int> rmq_query(int a, int b) {
     int size = b - a + 1, l = 31 - __builtin_clz(size);
     return min(rmq[l][a], rmq[l][b - (1 << l) + 1]);
+  }
+  int get_lcp(int a, int b) {
+    if(a == b) return n - a;
+    int ia = invsa[a];
+    int ib = invsa[b];
+    return rmq_query(min(ia, ib)+1, max(ia, ib)).first;
   }
   int get_lcp2(int ia, int ib) {
     return rmq_query(min(ia, ib)+1, max(ia, ib)).first;
